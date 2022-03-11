@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+
+{% block head %}
+{% if test_running %}<meta http-equiv="refresh" content="30">{% endif %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(function(){
+    $("#runTestBtn").click(function(){
+        if (confirm("Are you sure?")) {
+            console.log("sure i'm sure");
+            $("#runTestForm").submit();
+        } else {
+            console.log("no i'm not sure");
+        }
+    });
+
+    $(".stopSingleTest").click(function(){
+        console.log("stop single test btn clicked");
+
+        if (confirm("Are you sure you want to stop this test manually?")) {
+            console.log("sure i'm sure");
+            $(this).parents('form:first').submit();
+        } else {
+            console.log("no i'm not sure");
+        }
+    });
+
+    $("#stopAllTestsBtn").click(function(){
+        console.log("stop all test btn clicked");
+
+        if (confirm("Are you sure you want to stop all running speed tests?")) {
+            console.log("sure i'm sure");
+            $("#stopAllTestsForm").submit();
+        } else {s
+            console.log("no i'm not sure");
+        }
+    });
+
+});
+</script>
+{% endblock %}
+
+{% block content %}
+{% include "speedtest/partials/days_nav.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+        {% include "speedtest/partials/speedtest_dashboard.html" %}
+        </div>
+        <div class="col">
+            <div class="container" id="small">
+                <div class="row">
+                    {% with entries=latest_ping %}
+                        {% include "speedtest/partials/pingtest_dashboard.html" %}
+                    {% endwith %}
+                </div>
+
+                <div class="row">
+                    {% with entries=latest_dns %}
+                        {% include "speedtest/partials/dnstest_dashboard.html" %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+      {% if day == today %}
+      <a class="nav-link{% if selected == 'speed' %} active{% endif %}" href="{% url 'speedtest:index' %}?t=speed">Speed tests</a>
+      {% else %}
+      <a class="nav-link{% if selected == 'speed' %} active{% endif %}" href="{% url 'speedtest:day_detail' day %}?t=speed">Speed tests</a>
+      {% endif %}
+  </li>
+  <li class="nav-item">
+      {% if day == today %}
+      <a class="nav-link{% if selected == 'ping' %} active{% endif %}" href="{% url 'speedtest:index' %}?t=ping">Failed Ping tests</a>
+      {% else %}
+      <a class="nav-link{% if selected == 'ping' %} active{% endif %}" href="{% url 'speedtest:day_detail' day %}?t=ping">Failed Ping tests</a>
+      {% endif %}
+  </li>
+  <li class="nav-item">
+      {% if day == today %}
+      <a class="nav-link{% if selected == 'dns' %} active{% endif %}" href="{% url 'speedtest:index' %}?t=dns">Failed DNS tests</a>
+      {% else %}
+      <a class="nav-link{% if selected == 'dns' %} active{% endif %}" href="{% url 'speedtest:day_detail' day %}?t=dns">Failed DNS tests</a>
+      {% endif %}
+  </li>
+</ul>
+
+{% if selected == 'speed' %}
+{% with entries=speed %}
+    {% include "speedtest/partials/speedtest_table.html" %}
+{% endwith %}
+{% elif selected == 'ping' %}
+{% with entries=ping_failed %}
+    {% include "speedtest/partials/pingtest_table.html" %}
+{% endwith %}
+{% elif selected == 'dns' %}
+{% with entries=dns_failed %}
+    {% include "speedtest/partials/dnstest_table.html" %}
+{% endwith %}
+{% endif %}
+
+{% endblock %}

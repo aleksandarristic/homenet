@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+{% if scan_running %}<meta http-equiv="refresh" content="7">{% endif %}
+{% endblock %}
+
+{% block css %}
+<!--<link rel="stylesheet" href="{% static 'css/sortable.min.css' %}">-->
+{% endblock %}
+
+{% block title %}Home net monitor - Inventory{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/sortable.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'dashboard:index' %}">Dashboard</a>
+<hr/>
+<a href="{% url 'monitor:index' %}">Back to index</a>
+<br/>
+Scan details: {{ scan }}
+<hr/>
+{% with entries=devices %}
+{% include 'monitor/partials/device_table.html' %}
+{% endwith %}
+{% endblock %}

@@ -1,0 +1,69 @@
+<table class="table table-bordered table-hover table-striped table-sm table-responsive sortable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Mac Address</th>
+            <th>Type</th>
+            <th>Manufacturer</th>
+            <th>First Seen</th>
+            <th>Last Seen</th>
+            <th>Last IP</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% if not entries %}
+    <tr>
+        <td colspan="9">
+            <center>
+                No recent scans.
+
+                {% if not scan_running %}
+                <form action="{% url 'monitor:scan_start' %}" method="post" id="runScanForm">
+                    {% csrf_token %}
+                    <a href="#" id="runScanBtn">Run scan now.</a>
+                </form>
+                {% else %}
+                    Scan in progress, please wait.
+                {% endif %}
+            </center>
+        </td>
+    </tr>
+    {% endif %}
+    {% for entry in entries %}
+
+        <tr>
+            <td>
+                {{ entry.name }}
+            </td>
+            <td>
+                {{ entry.description }}
+            </td>
+            <td>
+                {{ entry.mac_address }}
+            </td>
+            <td>
+                {{ entry.type }}
+            </td>
+            <td>
+                {{ entry.manufacturer }}
+            </td>
+            <td data-sort="{{ entry.first_seen|date:'YmdHi' }}">
+                {{ entry.first_seen|date:'d M Y H:i' }}
+            </td>
+            <td data-sort="{{ entry.last_seen|date:'Ymd' }}">
+                {{ entry.last_seen|date:'d M Y H:i' }}
+            </td>
+            <td>
+                {{ entry.last_ip }}
+            </td>
+            <td>
+                <a href="{% url 'monitor:device_edit' entry.id %}">edit</a>
+            </td>
+        </tr>
+
+    {% endfor %}
+    </tbody>
+</table>

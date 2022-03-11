@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'speedtest:day_detail' day %}">{{ day|date:"j. n. Y." }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ entry.start_time|date:"H:i:s" }}</li>
+  </ol>
+</nav>
+
+<table class="table table-bordered table-responsive">
+    <thead>
+      <tr>
+        <th colspan="13">
+          Details for test ran at {{ entry.start_time|date:"H:i:s" }} on {{ entry.test_date|date:"l, j. n. Y." }}
+        </th>
+      </tr>
+        <tr>
+          <th>Start Time</th>
+          <th>Status</th>
+          <th>Duration</th>
+          <th>Server Name</th>
+          <th>Server ID</th>
+          <th>Download</th>
+          <th>Upload</th>
+          <th>Latency</th>
+          <th>Jitter</th>
+          <th>Packet Loss</th>
+          <th>Downloaded Data</th>
+          <th>Uploaded Data</th>
+          <th>Test URL</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ entry.start_time|date:"H:i:s" }}</td>
+        {% if entry.success %}
+        <td class="success">OK</td>
+        {% else %}
+        <td class="failed">FAIL</td>
+        {% endif %}
+        <td>{{ entry.duration|decimal:"0" }} s</td>
+        <td>{{ entry.server }}</td>
+        <td>{{ entry.server_id }}</td>
+        <td>{{ entry.download|convert_speed:"Mbps" }} Mbps</td>
+        <td>{{ entry.upload|convert_speed:"Mbps" }} Mbps</td>
+        <td>{{ entry.latency|decimal:"2" }} ms</td>
+        <td>{{ entry.jitter|decimal:"2" }} ms</td>
+        <td>{{ entry.packet_loss }}</td>
+        <td>{{ entry.dl_bytes|in_mb|decimal:"2" }} MB</td>
+        <td>{{ entry.ul_bytes|in_mb|decimal:"2" }} MB</td>
+        {% if entry.success %}
+        <td><a href="{{ entry.share_url }}" target="_blank">url</a></td>
+        {% else %}
+          N/A
+        {% endif %}
+     </tr>
+    </tbody>
+</table>
+
+{% endblock %}

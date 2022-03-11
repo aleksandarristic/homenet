@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}Home net monitor - Dashboard{% endblock %}
+
+
+{% block content %}
+<h1>Welcome boss.</h1>
+<hr/>
+<ul>
+    <li>
+        <a href="{% url 'speedtest:index' %}">Speedtest</a>
+    </li>
+    <li>
+        <a href="{% url 'monitor:index' %}">Network</a>
+    </li>
+    {% autoescape on %}
+    {% for menu_item in menu_items %}
+    <li>
+        <a href="{{ menu_item.url }}">{{ menu_item.text }}</a>
+    </li>
+    {% endfor %}
+    {% endautoescape %}
+</ul>
+<hr/>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'speedtest:day_detail' day %}">{{ day|date:"j. n. Y." }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ entry.start_time|date:"H:i:s" }}</li>
+  </ol>
+</nav>
+
+<table class="table table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th colspan="8">Details for Ping test at {{ entry.start_time|date:"H:i:s" }} on {{ day|date:"j. n. Y." }}</th>
+        </tr>
+        <tr>
+            <th>time</th>
+            <th>status</th>
+            <th>duration</th>
+            <th>server</th>
+            <th>ping</th>
+            <th>loss</th>
+            <th>min, avg, max, dev</th>
+            <th>raw output</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                {{ entry.start_time|date:"H:i:s" }}
+            </td>
+            <td>
+                {% if entry.success %}
+                    {% if entry.packet_loss < 0 %}
+                        OK
+                    {% else %}
+                        LOSSY
+                    {% endif %}
+                {% else %}
+                    {% if entry.ping > 0 %}
+                        LOSSY
+                    {% else %}
+                        FAILED
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td title="{{ entry.duration|in_ms:'force' }}">
+                {{ entry.duration|in_ms }}
+            </td>
+            <td>
+                {{ entry.server }}
+            </td>
+            <td>
+                {% if entry.ping > 0 %}
+                {{ entry.ping|decimal:"3" }} ms
+                {% else %}
+                N/A
+                {% endif %}
+            </td>
+            <td>
+                {% if entry.packet_loss < 0 %}N/A{% else %}{{ entry.packet_loss }}{% endif %}
+            </td>
+            <td>
+                {{ entry.stats }}
+            </td>
+            <td>
+                <pre>{{ entry.data }}</pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+# 1) copy this file to /etc/logrotate.d/homenet
+# 2) change the path below to match your log file path
+# 3) test with "sudo logrotate -vdf /etc/logrotate.d/homenet"
+/path/to/django/app.log {
+  daily
+  rotate 30
+  dateext
+  compress
+  notifempty
+  missingok
+  su pi pi
+}

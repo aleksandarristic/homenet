@@ -1,0 +1,70 @@
+<!-- {% load custom_tags %} -->
+<table class="table table-hover table-striped table-sm table-responsive">
+    <caption>
+        {% if day == today %}
+        Failed today: {{ ping_tests_failed }}
+        {% else %}
+        Failed on {{ day|date:"j. n. Y" }}: {{ ping_tests_failed }}
+        {% endif %}
+    </caption>
+    <thead>
+        <tr>
+            {% if day == today %}
+            <th colspan="5">Last Ping tests</th>
+            {% else %}
+            <th colspan="5">Last Failed Ping tests on {{ day|date:"j. n. Y." }}</th>
+            {% endif %}
+        </tr>
+        <tr>
+            <th>time</th>
+            <th>status</th>
+            <th>server</th>
+            <th>avg ping</th>
+            <th>packet loss</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if not entries %}
+        <tr>
+            <td colspan="5">
+                {% if day == today %}
+                NO LATEST DATA TODAY
+                {% else %}
+                NO FAILED TEST ON {{ day|date:"j. n. Y." }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+        {% for entry in entries %}
+        <tr>
+            <td>
+                <a href="{% url 'speedtest:pingtest_detail' entry.id %}">{{ entry.start_time|date:"H:i:s" }}</a>
+            </td>
+            <td>
+                {% if entry.success %}
+                    {% if entry.packet_loss < 0 %}
+                        OK
+                    {% else %}
+                        LOSSY
+                    {% endif %}
+                {% else %}
+                    {% if entry.ping > 0 %}
+                        LOSSY
+                    {% else %}
+                        FAILED
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {{ entry.server }}
+            </td>
+            <td>
+                {{ entry.ping|decimal:"3" }} ms
+            </td>
+            <td>
+                {% if entry.packet_loss < 0 %}0{% else %}{{ entry.packet_loss }}{% endif %}%
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

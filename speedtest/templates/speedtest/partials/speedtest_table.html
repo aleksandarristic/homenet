@@ -1,0 +1,44 @@
+<!-- {% load custom_tags %} -->
+<table class="table table-bordered table-hover table-striped table-sm table-responsive">
+    <thead>
+    <tr>
+        <th>Start Time</th>
+        <th>Status</th>
+        <th>DL Speed</th>
+        <th>UL Speed</th>
+        <th>Latency</th>
+        <th>Jitter</th>
+        <th>Test URL</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% if not entries %}
+    <tr>
+        <td colspan="6"><center>No saved speed tests {% if day == today %}today{% else %}for {{ day|date:"j. n. Y." }}{% endif %}</center></td>
+    </tr>
+    {% endif %}
+    {% for entry in entries %}
+    <tr>
+        <td><a href="{% url 'speedtest:entry_detail' entry.id %}">{{ entry.start_time|date:"H:i:s" }}</a></td>
+        {% if not entry.running %}
+        <td>{% if entry.success %}OK{% else %}FAILED{% endif %}</td>
+        <td>{{ entry.download|convert_speed:"Mbps" }} Mbps</td>
+        <td>{{ entry.upload|convert_speed:"Mbps" }} Mbps</td>
+        <td>{{ entry.latency|decimal:"2" }} ms</td>
+        <td>{{ entry.jitter|decimal:"2"}} ms</td>
+        <td>{% if entry.success %}<a href="{{ entry.share_url }}" target="_blank">url</a>{% else %}N/A{% endif %}</td>
+        {% else %}
+        <td colspan="6">
+            <center>
+                <form action="{% url 'speedtest:speedtest_stop' entry.id %}" method="post">
+                    {% csrf_token %}
+                    THIS TEST IS IN PROGRESS <a href="#" class="stopSingleTest">[Stop test]</a>
+                </form>
+            </center>
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
