@@ -1,0 +1,9 @@
+*.sqlite3
+__pycache__
+.DS_Store
+.idea
+.venv
+app/settings_local.py
+app/production
+logs
+scripts/production
