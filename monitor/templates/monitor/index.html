@@ -6,6 +6,14 @@
 
 {% block css %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<style>
+.dataTables_wrapper .myfilter .dataTables_filter {
+    float:left
+}
+.dataTables_wrapper .mylength .dataTables_length {
+    float:right
+}
+</style>
 {% endblock %}
 
 {% block title %}Home net monitor - Inventory{% endblock %}
@@ -23,12 +31,18 @@ $(function(){
     });
 
     $('#deviceTable').DataTable({
+        select: true,
         paging: false,
-        order: [[ 5, "desc" ]],
+        order: [[0, "asc"], [4, "asc"], [ 5, "desc" ]],
         columnDefs: [
-            { orderable: false, targets: 7 }
+            { orderable: false, targets: 7 },
+            { searchable: false, targets: 7 }
         ],
-
+        dom:"<'myfilter'f><'mylength'l>t",
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search..."
+        }
     });
 
 });
