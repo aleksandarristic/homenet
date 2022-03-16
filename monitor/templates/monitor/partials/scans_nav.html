@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'dashboard:index' %}" title="Back to Dashboard">Dash</a>&nbsp;
+    <a class="navbar-brand" href="{% url 'monitor:index' %}">Index</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        {% if menu_page == 0 %}
+          {% for item in menu_items %}
+          <li>
+            <a class="nav-link" aria-current="page" href="{% url 'monitor:scan_details' item.id %}?t={{ selected }}">{{ item.time }}</a>
+          </li>
+          {% endfor %}
+        {% else %}
+         <li class="nav-item">
+           <a class="nav-link" aria-current="page" href="{% url 'monitor:index' %}?p={{ menu_page|add:'-1' }}">&lt;&lt;back</a>
+         </li>
+          {% for item in menu_items %}
+          <li>
+            <a class="nav-link" aria-current="page" href="{% url 'monitor:scan_details' item.id %}?p={{ menu_page }}">{{ item.time }}</a>
+          </li>
+          {% endfor %}
+        {% endif %}
+        <a class="nav-link" aria-current="page" href="{% url 'monitor:index' %}?p={{ menu_page|add:'1' }}">older&gt;&gt;</a>
+      </ul>
+    </div>
+  </div>
+</nav>
+

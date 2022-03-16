@@ -15,7 +15,11 @@ log = logging.getLogger()
 
 @require_GET
 def index(request):
-    latest_scans = Scan.objects.all()[:5]
+    try:
+        menu_page = int(request.GET.get('p', 0))
+    except ValueError:
+        menu_page = 0
+
     try:
         last_scan = Scan.objects.latest('time')
     except Scan.DoesNotExist:
@@ -39,10 +43,14 @@ def index(request):
         recent_devices = last_scan.devices.all() if last_scan is not None else []
         start_time, end_time = None, None
 
+    offset = 5 * menu_page
+    menu_items = Scan.objects.all()[0+offset:5+offset]
+
     template = 'monitor/index.html'
     context = {
+        'menu_items': menu_items,
+        'menu_page': menu_page,
         'last_scan': last_scan,
-        'latest_scans': latest_scans,
         'recent_devices': recent_devices,
         'start_time': start_time,
         'end_time': end_time,
@@ -83,9 +91,14 @@ def scan_start(request):
 
 @require_GET
 def scan_details(request, device_id):
+    try:
+        menu_page = int(request.GET.get('p', 0))
+    except ValueError:
+        menu_page = 0
     scan = get_object_or_404(Scan, pk=device_id)
 
     context = {
+        'menu_page': menu_page,
         'scan': scan,
         'devices': scan.devices.all()
     }

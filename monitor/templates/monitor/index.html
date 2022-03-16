@@ -27,13 +27,8 @@ $(function(){
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'dashboard:index' %}">Dashboard</a>
-<br/>
-<!--Last scan: {{ last_scan }}-->
-Last 5 scans:
-{% for scan in latest_scans %}
-<a href="{% url 'monitor:scan_details' scan.id %}">{{ scan }}</a>
-{% endfor %}
+{% include 'monitor/partials/scans_nav.html' %}
+
 <hr/>
 {% with entries=recent_devices %}
 {% include 'monitor/partials/device_table.html' %}
