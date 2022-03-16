@@ -5,13 +5,10 @@
 {% block content %}
 <a href="{% url 'monitor:index' %}">&lt;&lt; back</a>
 <hr/>
+<table>
 <form action="{% url 'monitor:device_edit' device.id %}" method="post">
     {% csrf_token %}
-    <div class="form-group">
-    {{ device_form.as_p }}
-    </div>
-    <div class="form-group">
+    {{ device_form.as_table }}
+</table>
     <input type="submit" value="Submit">
-    </div>
-</form>
 {% endblock %}
