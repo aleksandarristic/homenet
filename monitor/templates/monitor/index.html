@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block css %}
-<!--<link rel="stylesheet" href="{% static 'css/sortable.min.css' %}">-->
+<link rel="stylesheet" href="{% static 'css/sortable.min.css' %}">
 {% endblock %}
 
 {% block title %}Home net monitor - Inventory{% endblock %}
@@ -28,7 +28,7 @@ $(function(){
 
 {% block content %}
 {% include 'monitor/partials/scans_nav.html' %}
-
+<h5>Devices seen between {{ start_time }} and {{ end_time }}.</h5>
 <hr/>
 {% with entries=devices %}
 {% include 'monitor/partials/device_table.html' %}
