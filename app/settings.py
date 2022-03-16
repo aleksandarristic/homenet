@@ -116,9 +116,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     # BASE_DIR / "static",
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'dashboard', 'static'),
-    os.path.join(BASE_DIR, 'speedtest', 'static'),
-    os.path.join(BASE_DIR, 'monitor', 'static'),
+    # os.path.join(BASE_DIR, 'dashboard', 'static'),
+    # os.path.join(BASE_DIR, 'speedtest', 'static'),
+    # os.path.join(BASE_DIR, 'monitor', 'static'),
 ]
 
 
