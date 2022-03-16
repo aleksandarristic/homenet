@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<!--<link rel="stylesheet" href="{% static 'css/sortable.min.css' %}">-->
+{% endblock %}
+
+{% block title %}Home net monitor - Inventory{% endblock %}
+
+{% block javascript %}
+<!--<script src="{% static 'js/sortable.min.js' %}"></script>-->
+{% endblock %}
+
+{% block content %}
+<a href="">Back</a>
+Devices seen between {{ start_time }} and {{ end_time }}.
+<hr/>
+{% with entries=devices %}
+{% include 'monitor/partials/device_table.html' %}
+{% endwith %}
+{% endblock %}

@@ -16,6 +16,24 @@ class Device(models.Model):
     manufacturer = models.TextField(blank=True)
     last_ip = models.GenericIPAddressField("Last known IP")
 
+    @property
+    def last_scan(self):
+        try:
+            scan = self.scan_set.latest('time')
+        except Scan.DoesNotExist:
+            scan = None
+
+        return scan
+
+    @property
+    def first_scan(self):
+        try:
+            scan = self.scan_set.earliest('time')
+        except Scan.DoesNotExist:
+            scan = None
+
+        return scan
+
     def __str__(self):
         return f'Device("{self.name}", "{self.mac_address}", "{self.last_ip}", {self.last_seen})'
 

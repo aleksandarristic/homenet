@@ -51,10 +51,18 @@
                 {{ entry.manufacturer }}
             </td>
             <td data-sort="{{ entry.first_seen|date:'YmdHi' }}">
+                {% if entry.first_scan %}
+                <a href="{% url 'monitor:scan_details' entry.first_scan.id %}" title="See all devices from this scan">{{ entry.first_seen|date:'d M Y H:i' }}</a>
+                {% else %}
                 {{ entry.first_seen|date:'d M Y H:i' }}
+                {% endif %}
             </td>
             <td data-sort="{{ entry.last_seen|date:'Ymd' }}">
+                {% if entry.last_scan %}
+                <a href="{% url 'monitor:scan_details' entry.last_scan.id %}" title="See all devices from this scan">{{ entry.last_seen|date:'d M Y H:i' }}</a>
+                {% else %}
                 {{ entry.last_seen|date:'d M Y H:i' }}
+                {% endif %}
             </td>
             <td>
                 {{ entry.last_ip }}

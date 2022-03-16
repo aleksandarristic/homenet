@@ -30,7 +30,7 @@ $(function(){
 {% include 'monitor/partials/scans_nav.html' %}
 
 <hr/>
-{% with entries=recent_devices %}
+{% with entries=devices %}
 {% include 'monitor/partials/device_table.html' %}
 {% endwith %}
 {% endblock %}

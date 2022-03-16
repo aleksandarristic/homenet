@@ -1,6 +1,6 @@
 import threading
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
@@ -14,47 +14,70 @@ log = logging.getLogger()
 
 
 @require_GET
-def index(request):
+def device_day(request, day=None):
+    """
+    ALL DEVICES SEEN IN A DAY
+    :param request:
+    :type request:
+    :param day:
+    :type day:
+    :return:
+    :rtype:
+    """
+    today = datetime.today().date()
+
+    end_time = datetime.combine(day or today, time.max)
+    start_time = datetime.combine(day or today, time.min)
+
+    day_scans = Scan.objects.filter(time__range=[start_time, end_time])
+    devices = Device.objects.filter(scan__in=day_scans).distinct()
+
     try:
         menu_page = int(request.GET.get('p', 0))
     except ValueError:
         menu_page = 0
 
-    try:
-        last_scan = Scan.objects.latest('time')
-    except Scan.DoesNotExist:
-        last_scan = None
-
-    start = request.GET.get('from')
-    if start:
-        end = request.GET.get('to')
-        try:
-            end_time = datetime.strptime(end, get_dt_format(end))
-        except (ValueError, TypeError):
-            end_time = datetime.now()
-
-        try:
-            start_time = datetime.strptime(start, get_dt_format(start))
-        except (ValueError, TypeError):
-            start_time = end_time - timedelta(minutes=30)
-
-        recent_devices = Device.objects.filter(last_seen__range=[start_time, end_time])
-    else:
-        recent_devices = last_scan.devices.all() if last_scan is not None else []
-        start_time, end_time = None, None
-
-    offset = 5 * menu_page
-    menu_items = Scan.objects.all()[0+offset:5+offset]
-
+    offset = 15 * menu_page
+    menu_items = list(reversed(Scan.objects.dates('time', 'day')))[0+offset:10+offset]
     template = 'monitor/index.html'
+
     context = {
+        'today': today,
         'menu_items': menu_items,
         'menu_page': menu_page,
-        'last_scan': last_scan,
-        'recent_devices': recent_devices,
+        'devices': devices,
         'start_time': start_time,
         'end_time': end_time,
-        'scan_running': last_scan.running if last_scan else False
+        'scan_running': bool(Scan.objects.filter(running=True))
+    }
+
+    return render(request, template, context)
+
+
+@require_GET
+def device_filter(request):
+
+    start = request.GET.get('from')
+    end = request.GET.get('to')
+    try:
+        end_time = datetime.strptime(end, get_dt_format(end))
+    except (ValueError, TypeError):
+        end_time = datetime.now()
+
+    try:
+        start_time = datetime.strptime(start, get_dt_format(start))
+    except (ValueError, TypeError):
+        start_time = end_time - timedelta(days=1)
+
+    devices = Device.objects.filter(last_seen__range=[start_time, end_time])
+
+    today = datetime.date(datetime.today())
+    template = 'monitor/time_filter.html'
+    context = {
+        'today': today,
+        'devices': devices,
+        'start_time': start_time,
+        'end_time': end_time,
     }
     return render(request, template, context)
 
