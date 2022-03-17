@@ -11,6 +11,7 @@ class Device(models.Model):
 
     first_seen = models.DateTimeField("First seen", default=tz.now)
     last_seen = models.DateTimeField("Last seen", default=tz.now)
+    is_trusted = models.BooleanField(default=False)
 
     mac_address = models.CharField(max_length=17)
     manufacturer = models.TextField(blank=True)

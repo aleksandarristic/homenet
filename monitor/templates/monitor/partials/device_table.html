@@ -8,6 +8,7 @@
             <th>First Seen</th>
             <th>Last Seen</th>
             <th>Last IP</th>
+            <th>Known</th>
             <th>Edit</th>
         </tr>
     </thead>
@@ -62,6 +63,9 @@
             </td>
             <td>
                 {{ entry.last_ip }}
+            </td>
+            <td>
+                {{ entry.is_trusted }}
             </td>
             <td>
                 <a href="{% url 'monitor:device_edit' entry.id %}">edit</a>

@@ -35,14 +35,21 @@ $(function(){
         paging: false,
         order: [[0, "asc"], [4, "asc"], [ 5, "desc" ]],
         columnDefs: [
-            { orderable: false, targets: 7 },
-            { searchable: false, targets: 7 }
+            { orderable: false, targets: 8 },
+            { searchable: false, targets: 8 }
         ],
         dom:"<'myfilter'f><'mylength'l>t",
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Search..."
+        },
+
+        createdRow: function(row, data, dataIndex){
+            if( data[7] ==  `False`){
+                $(row).addClass('unknownDevice');
+            }
         }
+
     });
 
 });
