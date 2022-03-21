@@ -38,8 +38,8 @@ def device_day(request, day=None):
     except ValueError:
         menu_page = 0
 
-    offset = 15 * menu_page
-    menu_items = list(reversed(Scan.objects.dates('time', 'day')))[0+offset:10+offset]
+    offset = 9 * menu_page
+    menu_items = list(reversed(Scan.objects.dates('time', 'day')))[0+offset:9+offset]
     template = 'monitor/index.html'
 
     context = {
