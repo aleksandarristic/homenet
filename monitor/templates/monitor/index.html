@@ -59,7 +59,7 @@ $(function(){
 
 {% block content %}
 {% include 'monitor/partials/scans_nav.html' %}
-<h5>Devices seen between {{ start_time }} and {{ end_time }}.</h5>
+<h5>Devices seen between {{ start_time|date:"" }} and {{ end_time }}.</h5>
 <hr/>
 {% with entries=devices %}
 {% include 'monitor/partials/device_table.html' %}

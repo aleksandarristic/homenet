@@ -1,3 +1,16 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% block title %}Home net monitor - Device Details{% endblock %}
+
+{% block content %}
+
+{% if datum %}
+<a href="{% url 'monitor:device_day' datum %}">&lt;&lt; Back</a>
+{% else %}
+<a href="{% url 'monitor:index' %}">&lt;&lt; Back</a>
+{% endif %}
+
+<hr/>
 <table class="table table-striped display compact" style="width:100%" id="deviceTable">
     <thead>
         <tr>
@@ -14,29 +27,9 @@
     </thead>
 
     <tbody>
-    {% if not entries %}
-    <tr>
-        <td colspan="9">
-            <center>
-                No recent scans.
-
-                {% if not scan_running %}
-                <form action="{% url 'monitor:scan_start' %}" method="post" id="runScanForm">
-                    {% csrf_token %}
-                    <a href="#" id="runScanBtn">Run scan now.</a>
-                </form>
-                {% else %}
-                    Scan in progress, please wait.
-                {% endif %}
-            </center>
-        </td>
-    </tr>
-    {% endif %}
-    {% for entry in entries %}
-
         <tr>
             <td>
-                <a href="{% url 'monitor:device_details' entry.id %}?d={{ datum|date:'Y-m-d' }}">{{ entry.name }}</a>
+                {{ entry.name }}
             </td>
             <td>
                 {{ entry.description }}
@@ -71,7 +64,12 @@
                 <a href="{% url 'monitor:device_edit' entry.id %}">edit</a>
             </td>
         </tr>
-
-    {% endfor %}
     </tbody>
 </table>
+<hr/>
+Device seen on:
+{% for day in entry|days_seen:7 %}
+<a href="{% url 'monitor:device_day' day %}">{{ day }}</a>&nbsp;
+{% endfor %}
+<a href="{% url 'monitor:device_history' entry.id %}">View full history</a>
+{% endblock %}

@@ -3,7 +3,14 @@
 {% block title %}Home net monitor - Edit Device{% endblock %}
 
 {% block content %}
-<a href="{% url 'monitor:index' %}">&lt;&lt; back</a>
+
+{% if datum %}
+{# <a href="{% url 'monitor:device_day' datum %}">&lt;&lt; Back</a> #}
+{% else %}
+<a href="{% url 'monitor:index' %}">&lt;&lt; Back</a>
+{% endif %}
+<br/>
+Device list
 <hr/>
 <table>
 <form action="{% url 'monitor:device_edit' device.id %}" method="post">

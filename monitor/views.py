@@ -2,6 +2,7 @@ import threading
 import logging
 from datetime import datetime, timedelta, time
 
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -42,6 +43,7 @@ def device_day(request, day=None):
     template = 'monitor/index.html'
 
     context = {
+        'datum': day,
         'today': today,
         'menu_items': menu_items,
         'menu_page': menu_page,
@@ -85,22 +87,46 @@ def device_filter(request):
 @require_http_methods(['GET', 'POST'])
 def device_edit(request, device_id):
     device = get_object_or_404(Device, pk=device_id)
+    datum = request.GET.get('datum')
+    try:
+        datetime.date(datum)
+    except (ValueError, TypeError):
+        datum = datetime.date(datetime.today()).strftime('%Y-%m-%d')
 
     if request.method == 'POST':
         device_form = DeviceForm(request.POST, instance=device)
         if device_form.is_valid():
             device = device_form.save()
-            return redirect('monitor:device_edit', device_id=device.id)
-
+            messages.success(request, 'Device saved')
+            return redirect('monitor:device_details', device_id=device.id)
     else:
         device_form = DeviceForm(instance=device)
-
     context = {
+        'datum': datum,
         'device_form': device_form,
         'device': device
     }
-
     return render(request, 'monitor/device_edit.html', context)
+
+
+@require_GET
+def device_details(request, device_id):
+    device = get_object_or_404(Device, pk=device_id)
+    context = {'entry': device}
+    template = 'monitor/device_details.html'
+
+    return render(request, template, context)
+
+
+@require_GET
+def device_history(request, device_id):
+    device = get_object_or_404(Device, pk=device_id)
+    context = {
+        'entry': device,
+    }
+    template = 'monitor/device_history.html'
+
+    return render(request, template, context)
 
 
 @require_POST

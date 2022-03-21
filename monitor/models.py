@@ -1,3 +1,6 @@
+# import datetime
+from datetime import datetime, time
+
 from django.db import models
 from django.utils import timezone as tz
 
@@ -16,6 +19,18 @@ class Device(models.Model):
     mac_address = models.CharField(max_length=17)
     manufacturer = models.TextField(blank=True)
     last_ip = models.GenericIPAddressField("Last known IP")
+
+    def days_seen(self, max_days=7):
+        if max_days:
+            dates = list(self.scan_set.dates('time', 'day'))[-max_days:]
+        else:
+            dates = self.scan_set.dates('time', 'day')
+        return reversed(dates)
+
+    def scans_on_date(self, d):
+        end_time = datetime.combine(d, time.max)
+        start_time = datetime.combine(d, time.min)
+        return self.scan_set.filter(time__range=[start_time, end_time])
 
     @property
     def last_scan(self):
