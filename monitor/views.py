@@ -57,6 +57,30 @@ def device_day(request, day=None):
 
 
 @require_GET
+def device_all(request):
+    try:
+        menu_page = int(request.GET.get('p', 0))
+    except ValueError:
+        menu_page = 0
+
+    offset = 9 * menu_page
+    menu_items = list(reversed(Scan.objects.dates('time', 'day')))[0+offset:9+offset]
+    template = 'monitor/index.html'
+
+    context = {
+        'datum': None,
+        'today': None,
+        'menu_items': menu_items,
+        'menu_page': menu_page,
+        'devices': Device.objects.all(),
+        'start_time': None,
+        'end_time': None,
+        'scan_running': bool(Scan.objects.filter(running=True))
+    }
+    return render(request, template, context)
+
+
+@require_GET
 def device_filter(request):
 
     start = request.GET.get('from')

@@ -18,13 +18,8 @@
     <tr>
         <td colspan="9">
             <center>
-                No recent scans.
-
                 {% if not scan_running %}
-                <form action="{% url 'monitor:scan_start' %}" method="post" id="runScanForm">
-                    {% csrf_token %}
-                    <a href="#" id="runScanBtn">Run scan now.</a>
-                </form>
+                No recent scans.
                 {% else %}
                     Scan in progress, please wait.
                 {% endif %}
@@ -62,7 +57,7 @@
                 {% endif %}
             </td>
             <td>
-                {{ entry.last_ip }}
+                <a href="http://{{ entry.last_ip }}/" target="_blank" title="Visit address in new tab">{{ entry.last_ip }}</a>
             </td>
             <td>
                 {{ entry.is_trusted }}
@@ -74,4 +69,19 @@
 
     {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="9"><center>
+                {% if not scan_running %}
+                <form action="{% url 'monitor:scan_start' %}" method="post" id="runScanForm">
+                    {% csrf_token %}
+                    <a href="#" id="runScanBtn"><small>Run a new scan now.</small></a>
+                </form>
+                {% else %}
+                <small>Scanning...</small>
+                {% endif %}
+                </center>
+            </td>
+        </tr>
+    </tfoot>
 </table>

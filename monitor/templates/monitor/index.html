@@ -59,7 +59,12 @@ $(function(){
 
 {% block content %}
 {% include 'monitor/partials/scans_nav.html' %}
+{% if start_time and end_time %}
 <h5>Devices seen between {{ start_time|date:"j. n. Y. H:i" }} and {{ end_time|date:"j. n. Y. H:i" }}.</h5>
+{% else %}
+<h5>All devices seen</h5>
+{% endif %}
+
 <hr/>
 {% with entries=devices %}
 {% include 'monitor/partials/device_table.html' %}

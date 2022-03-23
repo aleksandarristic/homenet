@@ -6,7 +6,8 @@ app_name = 'monitor'
 
 urlpatterns = [
     path('', views.device_day, name='index'),
-    path('devices/<date:day>/', views.device_day, name='device_day'),
+    path('device/all/', views.device_all, name='device_all'),
+    path('device/<date:day>/', views.device_day, name='device_day'),
     path('device/filter/', views.device_filter, name='device_filter'),
     path('device/<int:device_id>/', views.device_details, name='device_details'),
     path('device/edit/<int:device_id>/', views.device_edit, name='device_edit'),
