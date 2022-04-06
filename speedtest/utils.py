@@ -221,7 +221,7 @@ def do_speed_test(server=None, calc_average=False):
     jitter = test_data.get('ping', {}).get('jitter')
     share_url = test_data.get('result', {}).get('url')
 
-    success = download > 0 and upload > 0 and share_url is not None and latency is not None
+    success = test_data and download > 0 and upload > 0 and share_url is not None and latency is not None
 
     speed_test.stop(
         server=server,

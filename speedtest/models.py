@@ -62,7 +62,7 @@ class SpeedTest(BaseTestModel):
 
         self.running = False
         self.server = server or self.server
-        self.success = success or self.success
+        self.success = success
         self.server_id = server_id or self.server_id
         self.latency = latency or self.latency
         self.jitter = jitter or self.jitter
