@@ -6,4 +6,4 @@ cd YOUR_PROJECT_DIRECTORY || exit
 python manage.py scan
 
 finished=$(date '+%d/%m/%Y %H:%M:%S')
-echo "Last speedtest run done at ${finished}"
+echo "Last inventory run done at ${finished}"

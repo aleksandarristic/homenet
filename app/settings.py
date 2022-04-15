@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dashboard.apps.Dashboard',
-    'speedtest.apps.Speedtest',
     'monitor.apps.Monitor',
 ]
 
