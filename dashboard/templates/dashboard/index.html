@@ -9,17 +9,46 @@
 {% block content %}
 <h1 class="display-4">Homenet Dashboard</h1>
 <hr/>
+{% autoescape on %}
+
+<div class="container">
+    <div class="row row-cols-auto">
+
+        <!-- render 'naked' menu items first -->
+        {% if menu_items %}
+        <div class="col">
+            <h6 class="fs-6 text-capitalize">No Group</h6>
+            <ul class="list-group" title="no group">
+                {% for menu_item in menu_items %}
+                <li class="list-group-item">
+                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank"{% endif %}>{{ menu_item.text }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% for group in url_groups %}
+        <div class="col">
+            <h6 class="fs-6 text-capitalize card-title">{{ group.text }}</h6>
+            <ul class="list-group" title="{{ group.text }}">
+                {% for menu_item in group.menuurl_set.all %}
+                {% if menu_item.active %}
+                <li class="list-group-item">
+                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank"{% endif %}>{{ menu_item.text }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endautoescape %}
+
 <ul>
-    <li>
-        <a href="{% url 'monitor:index' %}">Network Inventory</a>
-    </li>
-    {% autoescape on %}
-    {% for menu_item in menu_items %}
-    <li>
-        <a href="{{ menu_item.url }}">{{ menu_item.text }}</a>
-    </li>
-    {% endfor %}
-    {% endautoescape %}
 </ul>
 <hr/>
 {% endblock %}
