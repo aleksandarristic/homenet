@@ -20,7 +20,7 @@
             <ul class="list-group">
                 {% for menu_item in menu_items %}
                 <li class="list-group-item">
-                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
+                    <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -33,7 +33,7 @@
             <ul class="list-group">
                 {% for menu_item in group.active_menu_items %}
                 <li class="list-group-item">
-                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
+                    <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
                 </li>
                 {% endfor %}
             </ul>

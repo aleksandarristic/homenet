@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block css %}
-<!--<link rel="stylesheet" href="{% static 'css/sortable.min.css' %}">-->
 {% endblock %}
 
 {% block title %}Home net monitor - Inventory{% endblock %}
@@ -15,9 +14,9 @@
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'dashboard:index' %}">Dashboard</a>
+<a class="link-success" href="{% url 'dashboard:index' %}">Dashboard</a>
 <hr/>
-<a href="{% url 'monitor:index' %}?p={{ menu_page }}">Back to index</a>
+<a class="link-success" href="{% url 'monitor:index' %}?p={{ menu_page }}">Back to index</a>
 <br/>
 Scan details: {{ scan }}
 <hr/>

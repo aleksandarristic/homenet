@@ -5,9 +5,9 @@
 {% block content %}
 
 {% if datum %}
-{# <a href="{% url 'monitor:device_day' datum %}">&lt;&lt; Back</a> #}
+{# <a class="link-success" href="{% url 'monitor:device_day' datum %}">&lt;&lt; Back</a> #}
 {% else %}
-<a href="{% url 'monitor:index' %}">&lt;&lt; Back</a>
+<a class="link-success" href="{% url 'monitor:index' %}">&lt;&lt; Back</a>
 {% endif %}
 <br/>
 Device list

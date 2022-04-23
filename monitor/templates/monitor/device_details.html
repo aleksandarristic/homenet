@@ -5,9 +5,9 @@
 {% block content %}
 
 {% if datum %}
-<a href="{% url 'monitor:device_day' datum %}">&lt;&lt; Back</a>
+<a class="link-success" href="{% url 'monitor:device_day' datum %}">&lt;&lt; Back</a>
 {% else %}
-<a href="{% url 'monitor:index' %}">&lt;&lt; Back</a>
+<a class="link-success" href="{% url 'monitor:index' %}">&lt;&lt; Back</a>
 {% endif %}
 
 <hr/>
@@ -42,14 +42,14 @@
             </td>
             <td data-sort="{{ entry.first_seen|date:'YmdHi' }}">
                 {% if entry.first_scan %}
-                <a href="{% url 'monitor:scan_details' entry.first_scan.id %}" title="See all devices from this scan">{{ entry.first_seen|date:'d M Y H:i' }}</a>
+                <a class="link-success" href="{% url 'monitor:scan_details' entry.first_scan.id %}" title="See all devices from this scan">{{ entry.first_seen|date:'d M Y H:i' }}</a>
                 {% else %}
                 {{ entry.first_seen|date:'d M Y H:i' }}
                 {% endif %}
             </td>
             <td data-sort="{{ entry.last_seen|date:'Ymd' }}">
                 {% if entry.last_scan %}
-                <a href="{% url 'monitor:scan_details' entry.last_scan.id %}" title="See all devices from this scan">{{ entry.last_seen|date:'d M Y H:i' }}</a>
+                <a class="link-success" href="{% url 'monitor:scan_details' entry.last_scan.id %}" title="See all devices from this scan">{{ entry.last_seen|date:'d M Y H:i' }}</a>
                 {% else %}
                 {{ entry.last_seen|date:'d M Y H:i' }}
                 {% endif %}
@@ -61,7 +61,7 @@
                 {{ entry.is_trusted }}
             </td>
             <td>
-                <a href="{% url 'monitor:device_edit' entry.id %}">edit</a>
+                <a class="link-success" href="{% url 'monitor:device_edit' entry.id %}">edit</a>
             </td>
         </tr>
     </tbody>
@@ -69,7 +69,7 @@
 <hr/>
 Device seen on:
 {% for day in entry|days_seen:7 %}
-<a href="{% url 'monitor:device_day' day %}">{{ day }}</a>&nbsp;
+<a class="link-success" href="{% url 'monitor:device_day' day %}">{{ day }}</a>&nbsp;
 {% endfor %}
-<a href="{% url 'monitor:device_history' entry.id %}">View full history</a>
+<a class="link-success" href="{% url 'monitor:device_history' entry.id %}">View full history</a>
 {% endblock %}
