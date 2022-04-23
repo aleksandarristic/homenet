@@ -9,8 +9,6 @@ log = logging.getLogger()
 
 
 def arp_scan(interface="eth0", network="--localnet"):
-    # sudo arp-scan --localnet
-    # sudo arp-scan -x --interface=en0 x.x.x.x/x
     command = f"sudo arp-scan -x --interface={interface} {network}"
     log.debug(f'ARP - Running scan with command: "{command}"')
     scan = Scan(
@@ -59,8 +57,3 @@ def get_or_create_device(mac, ip, manufacturer, scan):
     device.last_seen = tz.now()
     device.save()
     return device
-
-
-def nmap_scan():
-    # sudo nmap -sn -n 192.168.0.0/24
-    pass

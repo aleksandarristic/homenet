@@ -14,14 +14,13 @@
 <div class="container">
     <div class="row row-cols-auto">
 
-        <!-- render 'naked' menu items first -->
         {% if menu_items %}
         <div class="col">
             <h6 class="fs-6 text-capitalize">No Group</h6>
-            <ul class="list-group" title="no group">
+            <ul class="list-group">
                 {% for menu_item in menu_items %}
                 <li class="list-group-item">
-                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank"{% endif %}>{{ menu_item.text }}</a>
+                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -31,13 +30,11 @@
         {% for group in url_groups %}
         <div class="col">
             <h6 class="fs-6 text-capitalize card-title">{{ group.text }}</h6>
-            <ul class="list-group" title="{{ group.text }}">
-                {% for menu_item in group.menuurl_set.all %}
-                {% if menu_item.active %}
+            <ul class="list-group">
+                {% for menu_item in group.active_menu_items %}
                 <li class="list-group-item">
-                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank"{% endif %}>{{ menu_item.text }}</a>
+                    <a href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
                 </li>
-                {% endif %}
                 {% endfor %}
             </ul>
         </div>

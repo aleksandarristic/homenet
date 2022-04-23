@@ -21,6 +21,9 @@ class UrlGroup(BaseModel):
     def __str__(self):
         return f'URLGroup(name="{self.name}", text="{self.text}")'
 
+    def active_menu_items(self):
+        return self.menuurl_set.filter(active=True)
+
     class Meta:
         ordering = ['order']
 
