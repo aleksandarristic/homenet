@@ -32,6 +32,7 @@ class MenuURL(BaseModel):
     url = models.CharField(max_length=1024)
     new_window = models.BooleanField('Open in new window', default=False, null=True)
     url_group = models.ForeignKey(UrlGroup, on_delete=models.SET_NULL, blank=True, null=True)
+    post_request = models.BooleanField('Make this link a post request', default=False, null=True)
 
     def __str__(self):
         return f'MenuURL(url="{self.url}", text="{self.text}")'

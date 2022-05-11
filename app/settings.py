@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'runner.apps.Runner',
     'dashboard.apps.Dashboard',
     'monitor.apps.Monitor',
 ]
@@ -130,6 +131,10 @@ MONITOR_CONFIG = {
         'interface': 'eth0',
         'network': '--localnet'
     },
+}
+
+RUNNER_CONFIG = {
+    'speedtest': '~/speedtest.py'
 }
 
 LOGGING = {

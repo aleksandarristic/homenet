@@ -5,6 +5,41 @@
 
 {% block title %}Home net monitor - Dashboard{% endblock %}
 
+{% block javascript %}
+<!--suppress XmlDuplicatedId -->
+<script type="text/javascript">
+$(function(){
+{% for menu_item in menu_items %}
+{% if menu_item.post_request %}
+    $("#menuItem{{ menu_item.id }}Btn").click(function(){
+        if (confirm("Are you sure you want to do this?")) {
+            console.log("sure i'm sure");
+            $("#menuItem{{ menu_item.id }}Form").submit();
+        } else {
+            console.log("no i'm not sure");
+        }
+    });
+{% endif %}
+{% endfor %}
+
+{% for group in url_groups %}
+{% for menu_item in group.active_menu_items %}
+{% if menu_item.post_request %}
+    $("#menuItem{{ menu_item.id }}Btn").click(function(){
+        if (confirm("Are you sure you want to do this?")) {
+            console.log("sure i'm sure");
+            $("#menuItem{{ menu_item.id }}Form").submit();
+        } else {
+            console.log("no i'm not sure");
+        }
+    });
+{% endif %}
+{% endfor %}
+{% endfor %}
+});
+</script>
+
+{% endblock %}
 
 {% block content %}
 <h1 class="display-4">Homenet Dashboard</h1>
@@ -20,7 +55,15 @@
             <ul class="list-group">
                 {% for menu_item in menu_items %}
                 <li class="list-group-item">
+                    {% if menu_item.post_request %}
+                    <!--suppress XmlDuplicatedId -->
+                    <form action="{{ menu_item.url }}" method="post" id="menuItem{{ menu_item.id }}Form">
+                        {% csrf_token %}
+                        <a class="link-success" href="#" id="menuItem{{ menu_item.id }}Btn">{{ menu_item.text }}</a>
+                    </form>
+                    {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>
@@ -33,7 +76,14 @@
             <ul class="list-group">
                 {% for menu_item in group.active_menu_items %}
                 <li class="list-group-item">
+                    {% if menu_item.post_request %}
+                    <form action="{{ menu_item.url }}" method="post" id="menuItem{{ menu_item.id }}Form">
+                        {% csrf_token %}
+                        <a class="link-success" href="#" id="menuItem{{ menu_item.id }}Btn">{{ menu_item.text }}</a>
+                    </form>
+                    {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>

@@ -158,7 +158,7 @@ def scan_start(request):
     t = threading.Thread(target=arp_scan,
                          daemon=True)
     t.start()
-    # TODO: implement messages
+    messages.success(request, 'New scan started!')
     return redirect('monitor:index')
 
 
