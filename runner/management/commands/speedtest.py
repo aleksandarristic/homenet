@@ -1,3 +1,4 @@
+import os
 import logging
 import subprocess
 
@@ -13,7 +14,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         script = settings.RUNNER_CONFIG.get('speedtest', '~/speedtest.py')
         log.info('Starting speedtest command')
-        proc = subprocess.run([script], capture_output=True)
+        speedtest_env = settings.RUNNER_CONFIG.get('speedtest_env', {})
+        env = os.environ.copy()
+        env.update(speedtest_env)
+        proc = subprocess.run([script], capture_output=True, env=env)
         print(proc.stdout.decode('utf-8'))
         if proc.returncode == 0:
             print('Success!')
