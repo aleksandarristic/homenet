@@ -1,14 +1,21 @@
+import logging
 import psutil
+
+log = logging.getLogger()
 
 
 def is_running(proc_name):
     """
     Check if there is any running process that contains the given name processName.
     """
+    log.debug(f'Checking if process "{proc_name}" is already running.')
     for proc in psutil.process_iter():
         try:
-            return proc_name.lower() in proc.name().lower()
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
+            if proc_name.lower() in proc.name().lower():
+                log.debug(f'Process "{proc_name}" found!')
+                return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess) as e:
+            log.error(f'Error: {e}')
 
+    log.debug(f'Process "{proc_name}" not found in process_iter.')
     return False
