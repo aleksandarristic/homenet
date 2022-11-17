@@ -119,6 +119,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+from django.contrib.messages import constants as messages
+# override default message tags for compatibility with bootstrap
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
 # my own speedtest settings
 SPEEDTEST_CONFIG = {
     'PING_TEST_HOSTS': [],
