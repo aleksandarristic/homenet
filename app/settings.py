@@ -166,6 +166,11 @@ LOGGING = {
     },
 }
 
+STATICFILES_DIRS = [
+    ("common", os.path.join(BASE_DIR, 'common', 'static')),
+]
+
+
 try:
     from .settings_local import *
 except ImportError:
