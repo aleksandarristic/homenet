@@ -16,7 +16,7 @@ def run_speedtest(request):
     # check if speedtest is running now
     if is_running('speedtest'):
         log.info("Speedtest already detected as running, not starting.")
-        messages.success(request, 'NOT STARTED: Speedtest process already running!')
+        messages.error(request, 'NOT STARTED: Speedtest process already running!')
     else:
         log.info('Speedtest not detected as running, starting speedtest now.')
         from django.core.management import call_command
