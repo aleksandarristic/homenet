@@ -26,7 +26,8 @@ $(function(){
 {% for menu_item in group.active_menu_items %}
 {% if menu_item.post_request %}
     $("#menuItem{{ menu_item.id }}Btn").click(function(){
-        if (confirm("Are you sure you want to do this?")) {
+        var msg = "{{ menu_item.post_warning }}" || "Are you sure you want to do this?";
+        if (confirm(msg)) {
             console.log("sure i'm sure");
             $("#menuItem{{ menu_item.id }}Form").submit();
         } else {
@@ -59,7 +60,7 @@ $(function(){
                     <!--suppress XmlDuplicatedId -->
                     <form action="{{ menu_item.url }}" method="post" id="menuItem{{ menu_item.id }}Form">
                         {% csrf_token %}
-                        <a class="link-success" href="#" id="menuItem{{ menu_item.id }}Btn">{{ menu_item.text }}</a>
+                        <a class="link-success" href="#" id="menuItem{{ menu_item.id }}Btn">&#x25B6;&nbsp;{{ menu_item.text }}</a>
                     </form>
                     {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
@@ -79,7 +80,7 @@ $(function(){
                     {% if menu_item.post_request %}
                     <form action="{{ menu_item.url }}" method="post" id="menuItem{{ menu_item.id }}Form">
                         {% csrf_token %}
-                        <a class="link-success" href="#" id="menuItem{{ menu_item.id }}Btn">{{ menu_item.text }}</a>
+                        <a class="link-success" href="#" id="menuItem{{ menu_item.id }}Btn">&#x25B6;&nbsp;{{ menu_item.text }}</a>
                     </form>
                     {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
