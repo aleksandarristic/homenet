@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'runner.apps.Runner',
     'dashboard.apps.Dashboard',
-    'monitor.apps.Monitor',
 ]
 
 MIDDLEWARE = [
@@ -132,12 +131,6 @@ SPEEDTEST_CONFIG = {
     'SPEED_TEST_SERVER': None,
 }
 
-MONITOR_CONFIG = {
-    'default': {
-        'interface': 'eth0',
-        'network': '--localnet'
-    },
-}
 
 RUNNER_CONFIG = {
     'speedtest': '~/speedtest.py'
