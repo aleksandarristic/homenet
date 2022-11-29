@@ -1,0 +1,44 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name YOUR_IP_OR_HOST;
+
+    autoindex off;
+    charset utf-8;
+
+    # don't write to logs when favicon is missing
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    # static files specific settings
+    location /static/ {
+        alias /home/pi/webapp/static/;
+    }
+
+    # gunicorn specific settings - user proxy pass to gunicorn socket on location /
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+
+
+    # pihole specific settings - mounting a php server at another location
+    root /var/www/html;
+    index index.html index.htm index.php pihole/index.php admin/index.php;
+    location /admin {
+        root /var/www/html;
+        index index.php index.html index.htm;
+    }
+    location ~ \.php$ {
+        try_files $uri $uri/ =404;
+        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        fastcgi_param FQDN true;
+        fastcgi_index index.php;
+        include fastcgi_params;
+    }
+    location ~ /\.ht {
+        deny all;
+    }
+
+}

@@ -1,3 +1,0 @@
-# <YOUR_PATH> is path to your two bash scripts that run speed and ping tests
-# <YOUR_LOG_DIR> is path for logging, readable by your app
-*/15 * * * * <YOUR_PATH>/inventory.sh > <YOUR_LOG_DIR>/inventory_scan.last.log 2>&1

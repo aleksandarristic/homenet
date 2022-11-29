@@ -6,4 +6,4 @@ __pycache__
 app/settings_local.py
 app/production
 logs
-scripts/production
+misc/production

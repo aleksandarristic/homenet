@@ -1,0 +1,35 @@
+# Edit the following file and add gunicorn config
+# sudo vim /etc/systemd/system/gunicorn.service
+
+# after gunicorn.socket and gunicorn.service files are created and configured, start and enable gunicorn.socket
+#   sudo systemctl start gunicorn.socket
+#   sudo systemctl enable gunicorn.socket
+
+# check status:
+#   sudo systemctl status gunicorn.socket
+# check if socket file exists:
+#   file /run/gunicorn.sock
+# check gunicorn.socket logs:
+#   sudo journalctl -u gunicorn.socket
+# check service activation:
+#   sudo systemctl status gunicorn
+# test socket via curl:
+#   curl --unix-socket /run/gunicorn.sock localhost
+# if you make any changes to the gunicorn.service, reload and restart like this:
+#   sudo systemctl daemon-reload
+#   sudo systemctl restart gunicorn
+
+# -- cut here
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=pi
+Group=www-data
+WorkingDirectory=/home/pi/webapp/homenet
+ExecStart=/home/pi/webapp/.venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock app.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
