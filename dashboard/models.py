@@ -19,7 +19,7 @@ class UrlGroup(BaseModel):
     name = models.CharField(max_length=64)
 
     def __str__(self):
-        return f'URLGroup(name="{self.name}", text="{self.text}")'
+        return f'{self.name}'
 
     def active_menu_items(self):
         return self.menuurl_set.filter(active=True)
@@ -36,7 +36,7 @@ class MenuURL(BaseModel):
     post_warning = models.CharField(max_length=1024, default='', null=True, blank=True)
 
     def __str__(self):
-        return f'MenuURL(url="{self.url}", text="{self.text}")'
+        return f'{self.url}'
 
     class Meta:
         ordering = ['order']

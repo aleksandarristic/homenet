@@ -1,0 +1,2 @@
+# Run speedtest every 15 minutes
+*/15 * * * * DB_USER=<user> DB_PASSWORD=<password> DB_DATABASE=<database> /path/to/your/speedtest.py

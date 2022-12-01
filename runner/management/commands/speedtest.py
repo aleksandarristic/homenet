@@ -21,6 +21,10 @@ class Command(BaseCommand):
         print(proc.stdout.decode('utf-8'))
         if proc.returncode == 0:
             print('Success!')
+            log.info('Speedtest process success')
         else:
+            print('ERROR!')
+            log.info('Speedtest process returned an error.')
             print(proc.stderr.decode('utf-8'))
+            log.error(proc.stderr.decode('utf-8'))
         print('All done.')
