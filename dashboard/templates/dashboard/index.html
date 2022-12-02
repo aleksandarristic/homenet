@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load dashboard_tags %}
 {% block head %}
 {% endblock %}
 
@@ -48,6 +48,34 @@ $(function(){
 {% autoescape on %}
 
 <div class="container">
+    {% if speedtest %}
+    <div class="row row-cols-auto">
+        <div class="col">
+            <h6 class="fs-6 text-capitalize card-title">Last speedtest</h6>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Time: {{ speedtest.last_timestamp }}
+                </li>
+                <li class="list-group-item">
+                    Download: {{ speedtest.last_download|to_megabit|floatformat:2 }} Mbps
+                </li>
+                <li class="list-group-item">
+                    Upload: {{ speedtest.last_upload|to_megabit|floatformat:2 }} Mbps
+                </li>
+                <li class="list-group-item">
+                    Ping: {{ speedtest.last_ping|floatformat:2 }} ms
+                </li>
+                <li class="list-group-item">
+                    Jitter: {{ speedtest.last_jitter|floatformat:2 }} ms
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ speedtest.last_url }}" target="_blank">link</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="row row-cols-auto">
 
         {% if menu_items %}

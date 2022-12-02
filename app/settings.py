@@ -111,6 +111,14 @@ RUNNER_CONFIG = {
     }
 }
 
+INFLUXDB_CONFIG = {
+    'DB_ADDRESS': 'localhost',
+    'DB_PORT': 8086,
+    'DB_USER': 'speedtestmonitor',
+    'DB_PASSWORD': '',
+    'DB_DATABASE': 'speedtest'
+}
+
 # Logging config
 LOGGING = {
     'version': 1,
