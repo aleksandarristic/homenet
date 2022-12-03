@@ -52,16 +52,13 @@ $(function(){
 
         {% if speedtest %}
         <div class="col">
-            <h6 class="fs-6 text-capitalize card-title">Last speedtest</h6>
+            <h6 class="fs-6 text-capitalize card-title">Internet: {% if speedtest.last_download > 0 %}<b>UP</b>{% else %}<b>DOWN</b>{%endif%}</h6>
             <ul class="list-group">
                 <li class="list-group-item">
-                    Time: {{ speedtest.last_timestamp|nice_dt }}
+                    DL speed: {{ speedtest.last_download|to_megabit|floatformat:2 }} Mbps
                 </li>
                 <li class="list-group-item">
-                    Download: {{ speedtest.last_download|to_megabit|floatformat:2 }} Mbps
-                </li>
-                <li class="list-group-item">
-                    Upload: {{ speedtest.last_upload|to_megabit|floatformat:2 }} Mbps
+                    UP speed: {{ speedtest.last_upload|to_megabit|floatformat:2 }} Mbps
                 </li>
                 <li class="list-group-item">
                     Ping: {{ speedtest.last_ping|floatformat:2 }} ms
@@ -69,9 +66,15 @@ $(function(){
                 <li class="list-group-item">
                     Jitter: {{ speedtest.last_jitter|floatformat:2 }} ms
                 </li>
+                {% if speedtest.last_url %}
                 <li class="list-group-item">
-                    <a href="{{ speedtest.last_url }}" target="_blank">View test ></a>
+                    <a href="{{ speedtest.last_url }}" target="_blank">{{ speedtest.last_timestamp|nice_dt }}</a>
                 </li>
+                {% else %}
+                <li class="list-group-item list-group-item-danger">
+                    {{ speedtest.last_timestamp|nice_dt }}
+                </li>
+                {% endif %}
             </ul>
         </div>
         {% endif %}

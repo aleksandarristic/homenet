@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django import template
 
@@ -14,7 +14,7 @@ def to_megabit(value):
 def nice_dt(dt_string):
     fmt = '%Y-%m-%dT%H:%M:%SZ'
     try:
-        dt = datetime.strptime(dt_string, fmt)
+        dt = datetime.strptime(dt_string, fmt) + timedelta(hours=1)  # hack; need to parse TZ
     except Exception as e:
         dt = None
         return ''
