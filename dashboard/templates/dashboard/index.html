@@ -48,13 +48,14 @@ $(function(){
 {% autoescape on %}
 
 <div class="container">
-    {% if speedtest %}
     <div class="row row-cols-auto">
+
+        {% if speedtest %}
         <div class="col">
             <h6 class="fs-6 text-capitalize card-title">Last speedtest</h6>
             <ul class="list-group">
                 <li class="list-group-item">
-                    Time: {{ speedtest.last_timestamp }}
+                    Time: {{ speedtest.last_timestamp|nice_dt }}
                 </li>
                 <li class="list-group-item">
                     Download: {{ speedtest.last_download|to_megabit|floatformat:2 }} Mbps
@@ -69,14 +70,11 @@ $(function(){
                     Jitter: {{ speedtest.last_jitter|floatformat:2 }} ms
                 </li>
                 <li class="list-group-item">
-                    <a href="{{ speedtest.last_url }}" target="_blank">link</a>
+                    <a href="{{ speedtest.last_url }}" target="_blank">View test ></a>
                 </li>
             </ul>
         </div>
-    </div>
-    {% endif %}
-
-    <div class="row row-cols-auto">
+        {% endif %}
 
         {% if menu_items %}
         <div class="col">
