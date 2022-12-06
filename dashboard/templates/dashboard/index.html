@@ -9,41 +9,7 @@
 
 {% block javascript %}
 <script type="text/javascript" src="{% static 'dashboard/dashboard.js' %}"></script>
-<!--suppress XmlDuplicatedId -->
-<script type="text/javascript">
-$(function(){
-
-{% for menu_item in menu_items %}{% if menu_item.post_request %}
-    $("#menuItem{{ menu_item.id }}Btn").click(function(){
-        if (confirm("Are you sure you want to do this?")) {
-            console.log("sure i'm sure");
-            let $f = $("#menuItem{{ menu_item.id }}Form");
-            let b = $f.attr('action');
-            $f.attr('action', b + location.hash);
-            $f.submit();
-        } else {
-            console.log("no i'm not sure");
-        }
-    });
-{% endif %}{% endfor %}
-
-{% for group in url_groups %}{% for menu_item in group.active_menu_items %}{% if menu_item.post_request %}
-    $("#menuItem{{ menu_item.id }}Btn").click(function(){
-        var msg = "{{ menu_item.post_warning }}" || "Are you sure you want to do this?";
-        if (confirm(msg)) {
-            console.log("sure i'm sure");
-            let $f = $("#menuItem{{ menu_item.id }}Form");
-            let b = $f.attr('action');
-            $f.attr('action', b + location.hash);
-            $f.submit();
-        } else {
-            console.log("no i'm not sure");
-        }
-    });
-{% endif %}{% endfor %}{% endfor %}
-});
-</script>
-
+<script type="text/javascript" src="{% static 'dashboard/autoreload.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -100,10 +66,10 @@ $(function(){
                 <li class="list-group-item">
                     {% if menu_item.post_request %}
                     <!--suppress XmlDuplicatedId -->
-                    <form action="{{ menu_item.url }}" method="post" id="menuItem{{ menu_item.id }}Form">
+                    <form action="{{ menu_item.url }}" method="post">
                         {% csrf_token %}
                         <!--suppress XmlDuplicatedId -->
-                        <a class="link-success menuItemBtn" href="#" id="menuItem{{ menu_item.id }}Btn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
+                        <a class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
                     </form>
                     {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
@@ -121,9 +87,9 @@ $(function(){
                 {% for menu_item in group.active_menu_items %}
                 <li class="list-group-item">
                     {% if menu_item.post_request %}
-                    <form action="{{ menu_item.url }}" method="post" id="menuItem{{ menu_item.id }}Form">
+                    <form action="{{ menu_item.url }}" method="post">
                         {% csrf_token %}
-                        <a class="link-success" href="#" id="menuItem{{ menu_item.id }}Btn">&#x25B6;&nbsp;{{ menu_item.text }}</a>
+                        <a class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
                     </form>
                     {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
