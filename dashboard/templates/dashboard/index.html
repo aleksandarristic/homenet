@@ -69,11 +69,11 @@ $(function(){
                 </li>
                 {% if speedtest.last_url %}
                 <li class="list-group-item">
-                    <a href="{{ speedtest.last_url }}" target="_blank">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
+                    <a href="{{ speedtest.last_url }}" target="_blank" title="{{ speedtest.last_timestamp|to_dt|date:'d/m/Y g:i:s' }}">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
                 </li>
                 {% else %}
                 <li class="list-group-item list-group-item-danger">
-                    {{ speedtest.last_timestamp|to_dt|naturaltime }}
+                    {{ speedtest.last_timestamp|to_dt|date:'d/m/Y  g:i:s' }} ({{ speedtest.last_timestamp|to_dt|naturaltime }})
                 </li>
                 {% endif %}
             </ul>
