@@ -32,7 +32,10 @@ $(function(){
         var msg = "{{ menu_item.post_warning }}" || "Are you sure you want to do this?";
         if (confirm(msg)) {
             console.log("sure i'm sure");
-            $("#menuItem{{ menu_item.id }}Form").submit();
+            let $f = $("#menuItem{{ menu_item.id }}Form");
+            let b = $f.attr('action');
+            $f.attr('action', b + location.hash);
+            $f.submit();
         } else {
             console.log("no i'm not sure");
         }
