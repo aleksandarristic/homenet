@@ -46,12 +46,13 @@ $(function(){
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-between">
+<div class="row justify-content-between align-items-end">
     <div class="col">
         <h1 class="display-4">Homenet Dashboard</h1>
     </div>
     <div class="col col-lg-2">
-        <input type="checkbox" onclick="toggleAutoRefresh(this);" id="reloadCB"> Auto Refresh
+        <input type="checkbox" class="btn-check" autocomplete="off" onclick="toggleAutoRefresh(this);" id="reloadCB">
+        <label class="btn btn-outline-success" for="reloadCB">Auto refresh</label>
     </div>
 </div>
 
@@ -63,7 +64,7 @@ $(function(){
 
         {% if speedtest %}
         <div class="col">
-            <h6 class="fs-6 text-capitalize card-title">Internet: {% if speedtest.last_download > 0 %}<b>UP</b>{% else %}<b>DOWN</b>{%endif%}</h6>
+            <h6 class="fs-6 text-capitalize card-title">Internet: {% if speedtest.last_download > 0 %}<b class="success">UP</b>{% else %}<b>DOWN</b>{%endif%}</h6>
             <ul class="list-group">
                 <li class="list-group-item">
                     DL speed: {{ speedtest.last_download|to_megabit|floatformat:2 }} Mbps
@@ -79,7 +80,7 @@ $(function(){
                 </li>
                 {% if speedtest.last_url %}
                 <li class="list-group-item">
-                    <a href="{{ speedtest.last_url }}" target="_blank" title="{{ speedtest.last_timestamp|to_dt|date:'d/m/Y g:i:s' }}">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
+                    <a class="link-success" href="{{ speedtest.last_url }}" target="_blank" title="{{ speedtest.last_timestamp|to_dt|date:'d/m/Y g:i:s' }}">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
                 </li>
                 {% else %}
                 <li class="list-group-item list-group-item-danger">
