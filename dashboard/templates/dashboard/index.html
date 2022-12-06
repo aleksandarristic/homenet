@@ -9,7 +9,6 @@
 
 {% block javascript %}
 <script type="text/javascript" src="{% static 'dashboard/dashboard.js' %}"></script>
-<script type="text/javascript" src="{% static 'dashboard/autoreload.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -18,7 +17,7 @@
         <h1 class="display-4">Homenet Dashboard</h1>
     </div>
     <div class="col col-lg-2">
-        <input type="checkbox" class="btn-check" autocomplete="off" onclick="toggleAutoRefresh(this);" id="reloadCB">
+        <input type="checkbox" class="btn-check" autocomplete="off" id="reloadCB" data-refresh="30">
         <label class="btn btn-outline-success" for="reloadCB">Auto refresh</label>
     </div>
 </div>
