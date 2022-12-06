@@ -11,11 +11,11 @@ def to_megabit(value):
 
 
 @register.filter
-def nice_dt(dt_string):
+def to_dt(dt_string, hour_delta=1):
     fmt = '%Y-%m-%dT%H:%M:%SZ'
     try:
-        dt = datetime.strptime(dt_string, fmt) + timedelta(hours=1)  # hack; need to parse TZ
+        dt = datetime.strptime(dt_string, fmt) + timedelta(hours=hour_delta)  # hack; need to parse TZ
     except Exception as e:
         dt = None
         return ''
-    return dt.strftime('%H:%M on %b %-d.')
+    return dt

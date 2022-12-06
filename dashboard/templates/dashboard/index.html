@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load dashboard_tags %}
+{% load humanize %}
 {% block head %}
 {% endblock %}
 
@@ -68,11 +69,11 @@ $(function(){
                 </li>
                 {% if speedtest.last_url %}
                 <li class="list-group-item">
-                    <a href="{{ speedtest.last_url }}" target="_blank">{{ speedtest.last_timestamp|nice_dt }}</a>
+                    <a href="{{ speedtest.last_url }}" target="_blank">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
                 </li>
                 {% else %}
                 <li class="list-group-item list-group-item-danger">
-                    {{ speedtest.last_timestamp|nice_dt }}
+                    {{ speedtest.last_timestamp|to_dt|naturaltime }}
                 </li>
                 {% endif %}
             </ul>
