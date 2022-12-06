@@ -68,8 +68,7 @@
                     <!--suppress XmlDuplicatedId -->
                     <form action="{{ menu_item.url }}" method="post">
                         {% csrf_token %}
-                        <!--suppress XmlDuplicatedId -->
-                        <a class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
+                        <a href="#" class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
                     </form>
                     {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
@@ -89,7 +88,7 @@
                     {% if menu_item.post_request %}
                     <form action="{{ menu_item.url }}" method="post">
                         {% csrf_token %}
-                        <a class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
+                        <a href="#" class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
                     </form>
                     {% else %}
                     <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
