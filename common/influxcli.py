@@ -16,4 +16,9 @@ class Cli(object):
         result_set = self.c.query('SELECT LAST(*) FROM speedtest')
         return result_set.get_points().__next__()
 
+    def get_ping(self):
+        result_set = self.c.query('SELECT last("up") FROM "ping" WHERE time > now() - 5m GROUP BY "name" ')
+        return result_set.raw.get('series')
+
+
 cli = Cli()
