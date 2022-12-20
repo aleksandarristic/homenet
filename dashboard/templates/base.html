@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    {% block head %}{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dart light">
+    <link href="{% static 'common/bootstrap-dark.min.css' %}" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)">
+    {% block css %}{% endblock %}
+    <script src="{% static 'common/popper.min.js' %}"></script>
+    <script src="{% static 'common/bootstrap.min.js' %}"></script></head>
+    <script src="{% static 'common/jquery-3.6.0.slim.min.js' %}"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'common/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'common/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'common/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'common/site.webmanifest' %}">
+
+    {% block javascript %}{% endblock %}
+<body>
+    <div class="container" id="main">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    <footer class="page-footer">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col">
+            <h5 class="font-weight-bold">Homenet Dashboard</h5>
+            <p class="text-sm-left font-weight-light">
+                Homenet - home network dashboard and network monitoring. Created using Django.
+            </p>
+          </div><!-- col -->
+
+          <div class="col">
+            <h5 class="font-weight-bold">Links</h5>
+            <ul>
+              <li><a class="link-success" href="https://github.com/aleksandarristic/" target="_blank">Github</a></li>
+              <li><a class="link-success" href="https://ristic.in.rs/" target="_blank">Website</a></li>
+              <li><a class="link-success" href="https://keybase.io/leka" target="_blank">Keybase</a></li>
+              <li><a class="link-success" href="https://twitter.com/ninjasnakes" target="_blank">Twitter</a></li>
+            </ul>
+          </div> <!-- col -->
+
+        </div><!-- row -->
+      </div> <!-- container -->
+
+      <div class="footer-copyright">
+        <div class="container">
+        © {% now "Y" %} by <a href="https://github.com/aleksandarristic/" class="link-success" target="_blank">@aleksandarristic</a>
+        </div>
+      </div>
+
+    </footer>
+
+    </div>
+{% block javascriptbottom %}{% endblock %}
+</body>
+</html>

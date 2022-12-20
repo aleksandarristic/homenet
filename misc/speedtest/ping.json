@@ -1,0 +1,16 @@
+{
+  "ping_hosts": [
+    {
+      "addr": "1.1.1.1",
+      "name": "Cloudflare DNS#1"
+    },
+    {
+      "addr": "1.0.0.1",
+      "name": "Cloudflare DNS#2"
+    },
+    {
+      "addr": "www.google.com",
+      "name": "Google.com"
+    }
+  ]
+}

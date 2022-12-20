@@ -1,0 +1,60 @@
+RUNNER_CONFIG = {
+    'speedtest': '/path/to/speedtest.py',
+    'speedtest_env': {
+        'DB_PASSWORD': 'dbpass',
+        'DB_USER': 'dbuser',
+        'DB_DATABASE': 'dbname',
+    },
+    'ping': '/path/to/ping.py',
+    'ping_env': {
+        'DB_PASSWORD': 'dbpass',
+        'DB_USER': 'dbuser',
+        'DB_DATABASE': 'dbname',
+    },
+}
+
+INFLUXDB_CONFIG = {
+    'DB_ADDRESS': 'localhost',
+    'DB_PORT': 8086,
+    'DB_USER': 'speedtestmonitor',
+    'DB_PASSWORD': '',
+    'DB_DATABASE': 'speedtest'
+}
+
+DEBUG = False
+SECRET_KEY = 'SomethingVeryRandomHere'
+ALLOWED_HOSTS = ['192.168.10.20']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '[%(asctime)s] - %(levelname)s - %(message)s',
+            'datefmt': '%d/%m/%Y %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': '/path/to/homenet.log',
+            'formatter': 'console',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        'root': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+STATIC_ROOT = '/path/to/static/'
+TIME_ZONE = 'Europe/Belgrade'

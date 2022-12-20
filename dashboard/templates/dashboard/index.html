@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load dashboard_tags %}
+{% load humanize %}
+{% load static %}
+{% block head %}
+{% endblock %}
+
+{% block title %}Home net monitor - Dashboard{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'dashboard/moment.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/dashboard.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-between align-items-end">
+    <div class="col">
+        <h1 class="display-4">Homenet Dashboard</h1>
+    </div>
+    <div class="col col-lg-2">
+        <input type="checkbox" class="btn-check" autocomplete="off" id="reloadCB" data-refresh="30">
+        <label class="btn btn-outline-success" for="reloadCB" data-bs-toggle="tooltip" data-bs-placement="left" title="Click to toggle automatic page reload every 30 seconds">Auto refresh</label>
+    </div>
+</div>
+
+<hr/>
+{% autoescape on %}
+
+<div class="container">
+    <div class="row row-cols-auto">
+
+        {% if speedtest %}
+        <div class="col">
+            <h6 class="fs-6 text-capitalize card-title">Connection</h6>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-{% if speedtest.last_download > 0 %}success{% else %}danger{% endif %}">
+                    STATUS: {% if speedtest.last_download > 0 %}<b class="success">UP</b>{% else %}<b>DOWN</b>{% endif %}
+                </li>
+                <li class="list-group-item">
+                    Download: {{ speedtest.last_download|to_megabit|floatformat:2 }} Mbps
+                </li>
+                <li class="list-group-item">
+                    Upload: {{ speedtest.last_upload|to_megabit|floatformat:2 }} Mbps
+                </li>
+                <li class="list-group-item">
+                    Ping: {{ speedtest.last_ping|floatformat:2 }} ms
+                </li>
+                <li class="list-group-item">
+                    Jitter: {{ speedtest.last_jitter|floatformat:2 }} ms
+                </li>
+                {% if speedtest.last_url %}
+                <li class="list-group-item">
+                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" class="link-success update-time" href="{{ speedtest.last_url }}" target="_blank" title="{{ speedtest.last_timestamp|to_dt|date:'d/m/Y G:i:s' }}" data-time="{{ speedtest.last_timestamp|to_dt|date:'U' }}">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
+                </li>
+                {% else %}
+                <li class="list-group-item list-group-item-danger">
+                    {{ speedtest.last_timestamp|to_dt|date:'d/m/Y G:i:s' }} (<div class="update-time" data-time="{{ speedtest.last_timestamp|to_dt|date:'U' }}">{{ speedtest.last_timestamp|to_dt|naturaltime }}</div>)
+                </li>
+                {% endif %}
+                <li class="list-group-item">
+                    <form action="{% url 'runner:run_speedtest' %}" method="post">
+                        {% csrf_token %}
+                        <a href="#" class="link-success menuItemBtn" data-msg="Are you sure you would like to run speedtest now?">&#x25B6;&nbsp;Run speedtest now</a>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if ping %}
+        <div class="col">
+            <h6 class="fs-6 text-capitalize card-title" data-bs-toggle="tooltip" title="Last ping test status for each server configured">Ping status</h6>
+            <ul class="list-group">
+                {% for p in ping %}
+                <li class="list-group-item">
+                    {{ p.name }}: {{ p.status }}<br/><small data-bs-toggle="tooltip" data-bs-placement="bottom" class="update-time" title="{{ p.time|to_dt|date:'d/m/Y  G:i:s' }}" data-time="{{ p.time|to_dt|date:'U' }}">{{ p.time|to_dt|naturaltime }}</small>
+                </li>
+                {% endfor %}
+                <li class="list-group-item">
+                    <form action="{% url 'runner:run_ping' %}" method="post">
+                        {% csrf_token %}
+                        <a href="#" class="link-success menuItemBtn" data-msg="Are you sure you would like to run ping test now?">&#x25B6;&nbsp;Run ping test now</a>
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        {% endif %}
+
+
+        {% if menu_items %}
+        <div class="col">
+            <h6 class="fs-6 text-capitalize">No Group</h6>
+            <ul class="list-group">
+                {% for menu_item in menu_items %}
+                <li class="list-group-item">
+                    {% if menu_item.post_request %}
+                    <!--suppress XmlDuplicatedId -->
+                    <form action="{{ menu_item.url }}" method="post">
+                        {% csrf_token %}
+                        <a href="#" class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
+                    </form>
+                    {% else %}
+                    <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% for group in url_groups %}
+        <div class="col">
+            <h6 class="fs-6 text-capitalize card-title">{{ group.text }}</h6>
+            <ul class="list-group">
+                {% for menu_item in group.active_menu_items %}
+                <li class="list-group-item">
+                    {% if menu_item.post_request %}
+                    <form action="{{ menu_item.url }}" method="post">
+                        {% csrf_token %}
+                        <a href="#" class="link-success menuItemBtn" data-msg="{{ menu_item.post_warning }}">&#x25B6;&nbsp;{{ menu_item.text }}</a>
+                    </form>
+                    {% else %}
+                    <a class="link-success" href="{{ menu_item.url }}"{% if menu_item.new_window %} target="_blank" title="Open in new window"{% endif %}>{{ menu_item.text }}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endautoescape %}
+
+<ul>
+</ul>
+<hr/>
+{% endblock %}
