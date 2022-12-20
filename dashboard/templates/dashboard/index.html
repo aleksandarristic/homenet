@@ -50,7 +50,7 @@
                 </li>
                 {% if speedtest.last_url %}
                 <li class="list-group-item">
-                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" class="link-success update-time" href="{{ speedtest.last_url }}" target="_blank" title="{{ speedtest.last_timestamp|to_dt|date:'d/m/Y G:i:s' }}" data-time="{{ speedtest.last_timestamp|to_dt|date:'U' }}">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
+                    <a rel="noopener noreferrer" data-bs-toggle="tooltip" data-bs-placement="bottom" class="link-success update-time" href="{{ speedtest.last_url }}" target="_blank" title="{{ speedtest.last_timestamp|to_dt|date:'d/m/Y G:i:s' }}" data-time="{{ speedtest.last_timestamp|to_dt|date:'U' }}">{{ speedtest.last_timestamp|to_dt|naturaltime }}</a>
                 </li>
                 {% else %}
                 <li class="list-group-item list-group-item-danger">
