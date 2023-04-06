@@ -93,7 +93,7 @@ def run_speedtest(server_id=None):
         proc.kill()
     except Exception as e:
         log.error(f'Error running speedtest: {e}')
-        return None, -1, timestamp
+        return None, -1, timestamp, server_id
 
     log.info(f'Speedtest run complete!')
 
