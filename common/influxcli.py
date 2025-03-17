@@ -17,7 +17,7 @@ class Cli(object):
         return result_set.get_points().__next__()
 
     def get_ping(self):
-        result_set = self.c.query('SELECT last("up") FROM "ping" WHERE time > now() - 5m GROUP BY "name"')
+        result_set = self.c.query('SELECT last("up") FROM "ping" WHERE time > now() - 30m GROUP BY "name"')
         return result_set.raw.get('series', [])
 
 
