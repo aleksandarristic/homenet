@@ -1,5 +1,6 @@
 import logging
 import subprocess
+import urllib.request
 
 
 log = logging.getLogger()
@@ -29,10 +30,13 @@ def transform_warp_output(output):
 
 
 def get_warp_status():
-    wg_cmd = ['curl', '--interface', 'wg0', 'https://www.cloudflare.com/cdn-cgi/trace/']
-    output, errors = get_command_output(wg_cmd)
-    if errors:
-        log.error(f'Error running wg show: {errors}')
+    url = 'https://www.cloudflare.com/cdn-cgi/trace'
+    try:
+        with urllib.request.urlopen(url) as response:
+            if response.status != 200:
+                log.error(f'Error getting warp status: {response.status}')
+                return None
+            return transform_warp_output(response.read().decode())
+    except Exception as e:
+        log.error(f'Error getting warp status: {e}')
         return None
-
-    return transform_warp_output(output)
