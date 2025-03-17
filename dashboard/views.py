@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from dashboard.models import MenuURL, UrlGroup
 from common.influxcli import cli
+from common.utils import get_warp_status
 
 
 def transform_ping(d):
@@ -24,7 +25,8 @@ def index(request):
         'url_groups': UrlGroup.objects.filter(active=True),
         'menu_items': MenuURL.objects.filter(active=True, url_group=None),
         'speedtest': speedtest,
-        'ping': list(map(transform_ping, ping)) if ping else None
+        'ping': list(map(transform_ping, ping)) if ping else None,
+        'warp': get_warp_status(),
     }
     template = 'dashboard/index.html'
     return render(request, template, context)

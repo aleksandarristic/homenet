@@ -67,7 +67,6 @@
         </div>
         {% endif %}
 
-        {% if ping %}
         <div class="col">
             <h6 class="fs-6 text-capitalize card-title" data-bs-toggle="tooltip" title="Last ping test status for each server configured">Ping status</h6>
             <ul class="list-group">
@@ -83,10 +82,25 @@
                     </form>
                 </li>
             </ul>
-
         </div>
-        {% endif %}
 
+        <div class="col">
+            <h6 class="fs-6 text-capitalize card-title" data-bs-toggle="tooltip" title="Status of Cloudflare Warp connection">Warp status</h6>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    STATUS: {% if warp.up %}<b class="success">UP</b>{% else %}<b>DOWN</b>{% endif %}
+                </li>
+                <li class="list-group-item">
+                    {{ warp.raw_warp_data|safe }}
+                </li>
+                {% comment %} <li class="list-group-item">
+                    <form action="{% url 'runner:run_warp' %}" method="post">
+                        {% csrf_token %}
+                        <a href="#" class="link-success menuItemBtn" data-msg="Are you sure you would like to get warp status now?">&#x25B6;&nbsp;Get warp status now</a>
+                    </form>
+                </li> {% endcomment %}
+            </ul>
+        </div>
 
         {% if menu_items %}
         <div class="col">
