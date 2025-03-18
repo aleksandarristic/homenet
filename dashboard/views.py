@@ -22,7 +22,7 @@ def index(request):
         logging.error(f'Could not get data from influxdb: "{e}"')
 
     warp_data = get_warp_status(raw=request.GET.get('raw') == 'true')
-    isp_ip = get_public_ip('eth0'),
+    isp_ip = get_public_ip()
     private_ip = get_private_ip()
 
     context = {
