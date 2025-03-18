@@ -91,8 +91,26 @@
                     STATUS: {% if warp.up %}<b class="success">UP</b>{% else %}<b>DOWN</b>{% endif %}
                 </li>
                 <li class="list-group-item">
+                    Warp public IP: {{ warp.ip }}
+                </li>
+                <li class="list-group-item">
+                    Warp location: {{ warp.loc }}
+                </li>
+                <li class="list-group-item">
+                    Warp data center: {{ warp.colo }}
+                </li>
+                <li class="list-group-item">
+                    ISP Public IP: {{ isp_ip }}
+                </li>
+                <li class="list-group-item">
+                    Private IP: {{ private_ip }}
+                </li>
+                
+                {% if warp.raw_warp_data %}
+                <li class="list-group-item">
                     {{ warp.raw_warp_data|safe }}
                 </li>
+                {% endif %}
                 {% comment %} <li class="list-group-item">
                     <form action="{% url 'runner:run_warp' %}" method="post">
                         {% csrf_token %}

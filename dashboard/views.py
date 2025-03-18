@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from dashboard.models import MenuURL, UrlGroup
 from common.influxcli import cli
-from common.utils import get_warp_status
+from common.utils import get_warp_status, get_public_ip, get_private_ip
 
 
 def transform_ping(d):
@@ -21,12 +21,18 @@ def index(request):
         ping = None
         logging.error(f'Could not get data from influxdb: "{e}"')
 
+    warp_data = get_warp_status(raw=request.GET.get('raw') == 'true')
+    isp_ip = get_public_ip('eth0'),
+    private_ip = get_private_ip()
+
     context = {
         'url_groups': UrlGroup.objects.filter(active=True),
         'menu_items': MenuURL.objects.filter(active=True, url_group=None),
         'speedtest': speedtest,
         'ping': list(map(transform_ping, ping)) if ping else None,
-        'warp': get_warp_status(),
+        'warp': warp_data,
+        'isp_ip': isp_ip,
+        'private_ip': private_ip,
     }
     template = 'dashboard/index.html'
     return render(request, template, context)
