@@ -72,7 +72,9 @@
             <ul class="list-group">
                 {% for p in ping %}
                 <li class="list-group-item">
-                    {{ p.name }}: {{ p.status }}<br/><small data-bs-toggle="tooltip" data-bs-placement="bottom" class="update-time" title="{{ p.time|to_dt|date:'d/m/Y  G:i:s' }}" data-time="{{ p.time|to_dt|date:'U' }}">{{ p.time|to_dt|naturaltime }}</small>
+                    {{ p.name }}:
+                    {% if p.status == "UP" %}<b class="success">UP</b>{% else %}<b>DOWN</b>{% endif %}
+                    <br/><small data-bs-toggle="tooltip" data-bs-placement="bottom" class="update-time" title="{{ p.time|to_dt|date:'d/m/Y  G:i:s' }}" data-time="{{ p.time|to_dt|date:'U' }}">{{ p.time|to_dt|naturaltime }}</small>
                 </li>
                 {% endfor %}
                 <li class="list-group-item">
@@ -87,20 +89,20 @@
         <div class="col">
             <h6 class="fs-6 text-capitalize card-title" data-bs-toggle="tooltip" title="Status of Cloudflare Warp connection">Warp status</h6>
             <ul class="list-group">
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-{% if warp.up %}success{% else %}danger{% endif %}">
                     STATUS: {% if warp.up %}<b class="success">UP</b>{% else %}<b>DOWN</b>{% endif %}
                 </li>
                 <li class="list-group-item">
-                    Warp public IP: <a class="link-success" href="https://ip.me/ip/{{ warp.ip }}" target="_blank">{{ warp.ip }}</a>
+                    IP: <a class="link-success" href="https://ip.me/ip/{{ warp.ip }}" target="_blank">{{ warp.ip }}</a>
                 </li>
                 <li class="list-group-item">
-                    Warp location: {{ warp.loc }}
+                    Location: {{ warp.loc }}
                 </li>
                 <li class="list-group-item">
-                    Warp data center: {{ warp.colo }}
+                    Data center: {{ warp.colo }}
                 </li>
                 <li class="list-group-item">
-                    ISP Public IP: <a class="link-success" href="https://ip.me/ip/{{ isp_ip }}" target="_blank">{{ isp_ip }}</a>
+                    ISP IP: <a class="link-success" href="https://ip.me/ip/{{ isp_ip }}" target="_blank">{{ isp_ip }}</a>
                 </li>
                 <li class="list-group-item">
                     Private IP: {{ private_ip }}
@@ -111,12 +113,6 @@
                     {{ warp.raw_warp_data|safe }}
                 </li>
                 {% endif %}
-                {% comment %} <li class="list-group-item">
-                    <form action="{% url 'runner:run_warp' %}" method="post">
-                        {% csrf_token %}
-                        <a href="#" class="link-success menuItemBtn" data-msg="Are you sure you would like to get warp status now?">&#x25B6;&nbsp;Get warp status now</a>
-                    </form>
-                </li> {% endcomment %}
             </ul>
         </div>
 
