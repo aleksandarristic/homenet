@@ -91,7 +91,7 @@
                     STATUS: {% if warp.up %}<b class="success">UP</b>{% else %}<b>DOWN</b>{% endif %}
                 </li>
                 <li class="list-group-item">
-                    Warp public IP: <a href = "https://ip.me/ip/{{ warp.ip }}" target=_blank>{{ warp.ip }}</a>
+                    Warp public IP: <a class="link-success" href="https://ip.me/ip/{{ warp.ip }}" target="_blank">{{ warp.ip }}</a>
                 </li>
                 <li class="list-group-item">
                     Warp location: {{ warp.loc }}
@@ -100,7 +100,7 @@
                     Warp data center: {{ warp.colo }}
                 </li>
                 <li class="list-group-item">
-                    ISP Public IP: <a href="https://ip.me/ip/{{ isp_ip }}" target=_blank>{{ isp_ip }}</a>
+                    ISP Public IP: <a class="link-success" href="https://ip.me/ip/{{ isp_ip }}" target="_blank">{{ isp_ip }}</a>
                 </li>
                 <li class="list-group-item">
                     Private IP: {{ private_ip }}
